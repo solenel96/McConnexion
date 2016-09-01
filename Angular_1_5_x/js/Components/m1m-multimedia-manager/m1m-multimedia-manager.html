@@ -1,0 +1,29 @@
+<h2>{{$ctrl.title}}</h2>
+<section>
+    <h3>Liste des lecteurs UPnP/DLNA</h3>
+    <ul>
+        <li ng-repeat="renderer in $ctrl.mediaRenderers">
+            <details>
+                <summary>{{renderer.name}}</summary>
+                {{renderer | json}}
+            </details>
+        </li>
+    </ul>
+</section>
+
+<section>
+    <h3>Liste des serveurs UPnP/DLNA</h3>
+    <ul>
+        <li ng-repeat="server in $ctrl.mediaServers">
+            <details>
+                <summary>{{server.name}}</summary>
+                <p ng-dblclick="$ctrl.browse(server.id)">
+                    {{server | json}}
+                </p>
+                <a ng-repeat="obj in $ctrl.directories" ng-dblclick="$ctrl.browse(server.id, obj.directory)">
+                    {{obj.name}}
+                </a>
+            </details>
+        </li>
+    </ul>
+</section>
