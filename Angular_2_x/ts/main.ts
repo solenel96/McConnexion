@@ -1,7 +1,7 @@
 /// <reference path="../typings/index.d.ts" />
 
 import { platformBrowserDynamic }   from "@angular/platform-browser-dynamic";
-import { Component 	} 				from "@angular/core";
+import {Component}                  from "@angular/core";
 import { BrowserModule }    		from "@angular/platform-browser";
 import { NgModule } 				from "@angular/core";
 import { FormsModule }   			from "@angular/forms";

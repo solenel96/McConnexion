@@ -2,7 +2,8 @@ import { Injectable } from "@angular/core";
 import {Http} from "@angular/http";
 import { utils } from "./utils";
 import {Observable} from "rxjs";
-import "rxjs/Rx";
+// import "rxjs/Rx";
+import "rxjs/add/operator/map";
 
 // export
 export interface Brick {
