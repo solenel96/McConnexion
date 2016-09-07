@@ -1,5 +1,5 @@
 require( "angular-material/angular-material.css" );
-require( "./controllerIHM.css" );
+require( "./m1m-client.css" );
 
 var angular						= require( "angular" ),
 	m1mClientMultimediaModule	= require( "./Components/m1m-multimedia-manager/m1m-multimedia-manager.js" )

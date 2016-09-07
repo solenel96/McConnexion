@@ -12,7 +12,7 @@ var gulp				= require('gulp')
   , upath				= require("upath")
   ;
 
-var webpackEntries	=	[ './js/controllerIHM.js'
+var webpackEntries	=	[ './js/m1m-client.js'
 						]
 var filesToLint 	=	[ 'js/**/*.js'
 						];
