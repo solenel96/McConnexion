@@ -1,14 +1,9 @@
 <h2>{{$ctrl.title}}</h2>
 <section>
     <h3>Liste des lecteurs UPnP/DLNA</h3>
-    <ul>
-        <li ng-repeat="renderer in $ctrl.mediaRenderers">
-            <details>
-                <summary>{{renderer.name}}</summary>
-                {{renderer | json}}
-            </details>
-        </li>
-    </ul>
+    <m1m-media-renderer ng-repeat="renderer in $ctrl.mediaRenderers"
+                        nf="renderer">
+    </m1m-media-renderer>
 </section>
 
 <section>
