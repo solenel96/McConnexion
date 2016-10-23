@@ -1,7 +1,8 @@
 import { Injectable } from "@angular/core";
 import {Http} from "@angular/http";
 import { utils } from "./utils";
-import {Observable} from "rxjs";
+import {Observable} from "rxjs/Observable";
+import {Observer} from "rxjs/Observer";
 // import "rxjs/Rx";
 import "rxjs/add/operator/map";
 
@@ -60,10 +61,11 @@ export class CommService {
     constructor(private _http: Http) {
         this.parser = new DOMParser();
     }
-    init() : Observable<DataDlnaDevices> {
+    init( origin?: string ) : Observable<DataDlnaDevices> {
+        origin = origin || location.origin;
         if(initDone) {throw "Cannot instantiate CommService multiple times...";} else {initDone = true;}
-        utils.initIO( location.hostname + ":" + location.port + "/m2m" );
-        return this._http.get("/getContext").map( (response) => {
+        utils.initIO( `${origin}/m2m` );
+        return this._http.get(`${origin}/getContext`).map( (response) => {
             if(response.status !== 200) {console.error("Impossible to get context:", response); return;}
             let context = JSON.parse( response.text() );
             for(let i in context.bricks ) {
@@ -102,6 +104,9 @@ export class CommService {
             if(this.onupdate) {this.onupdate( "appear", "BrickUPnP_MediaServer", brick );}
         }
     }
+    call(objectId: string, method: string, params: any[], cb?:(data: any)=>void) : Promise<any> {
+        return utils.call(objectId, method, params);
+    }
     play(mediaRendererId: string) : Promise<any> {
         return utils.call(mediaRendererId, "Play" , []);
     }
@@ -116,6 +121,15 @@ export class CommService {
     }
     loadMedia(mediaRendererId: string, mediaServerId: string, itemId: string) : Promise<any> {
         return utils.call(mediaRendererId, "loadMedia", [mediaServerId, itemId]);
+    }
+    subscribe(brickId: string) : Observable<any> {
+        let observable = Observable.create( (observer: Observer<any>) => {
+            utils.subscribeBrick(brickId, "eventUPnP", (data: any) => {
+                console.log( "utils event", data );
+                observer.next( data );
+            });
+        });
+        return observable;
     }
     browse(mediaServerId: string, directoryId: string = "0") : Promise<DataBrowse> {
         return utils.call( mediaServerId, "Browse", [directoryId] ).then( (dataString) => {

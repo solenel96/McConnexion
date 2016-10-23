@@ -1,4 +1,4 @@
-import { Component, Input 	} from "@angular/core";
+import { Component, Input, OnInit 	} from "@angular/core";
 import {CommService, MediaRenderer, Media} from "../Services/CommService";
 
 const htmlTemplate = `
@@ -19,10 +19,20 @@ const htmlTemplate = `
     selector		: "m1m-media-renderer",
     template		: htmlTemplate
 })
-export class M1mMediaRenderer {
+export class M1mMediaRenderer implements OnInit {
     @Input() nf	: MediaRenderer;
     constructor(private cs: CommService) {
         console.log( "CommService:", cs);
+    }
+    ngOnInit(): void {
+        let obs = this.cs.subscribe( this.nf.id );
+        this.cs.call(this.nf.id, "getMediasStates", []).then( (data) => {
+            console.log("ngOnInit:", this.nf.id, "getMediasStates", []);
+            console.log( "\t=>", data );
+        });
+        obs.subscribe( (event: any) => {
+           console.log( "M1mMediaRenderer UPnP event", event );
+        });
     }
     play() : Promise<any> {
         return this.cs.play( this.nf.id );

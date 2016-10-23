@@ -20,7 +20,7 @@ class Utils {
         this.io.on	( cbEventName, cb);
         return this;
     }
-    call(objectId: string, method: string, params: any[], cb?:(data: any)=>void) {
+    call(objectId: string, method: string, params: any[], cb?:(data: any)=>void) : Promise<any> {
         let call =	{ objectId	: objectId
             , method	: method
             , params	: JSON.stringify( params )
