@@ -122,14 +122,13 @@ export class CommService {
     loadMedia(mediaRendererId: string, mediaServerId: string, itemId: string) : Promise<any> {
         return utils.call(mediaRendererId, "loadMedia", [mediaServerId, itemId]);
     }
-    subscribe(brickId: string) : Observable<any> {
-        let observable = Observable.create( (observer: Observer<any>) => {
-            utils.subscribeBrick(brickId, "eventUPnP", (data: any) => {
-                console.log( "utils event", data );
+    subscribe(brickId: string, eventName: string = "eventUPnP") : Observable<Object> {
+        return Observable.create( (observer: Observer<Object>) => {
+            utils.subscribeBrick(brickId, eventName, (data: Object) => {
+                //console.log( "utils event", data );
                 observer.next( data );
             });
         });
-        return observable;
     }
     browse(mediaServerId: string, directoryId: string = "0") : Promise<DataBrowse> {
         return utils.call( mediaServerId, "Browse", [directoryId] ).then( (dataString) => {

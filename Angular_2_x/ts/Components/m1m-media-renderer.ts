@@ -1,5 +1,6 @@
 import { Component, Input, OnInit 	} from "@angular/core";
 import {CommService, MediaRenderer, Media} from "../Services/CommService";
+import {Observable} from "rxjs";
 
 const htmlTemplate = `
 	<section alx-dropzone
@@ -8,32 +9,110 @@ const htmlTemplate = `
 	        >
 	    <h3>{{nf.name}}</h3>
 	    <section>
-	        <button (click)="play ()">PLAY </button>
-	        <button (click)="pause()">PAUSE</button>
-	        <button (click)="stop ()">STOP </button>
+	        <button *ngIf="!isPlaying()" (click)="play ()">PLAY </button>
+	        <button *ngIf=" isPlaying()" (click)="pause()">PAUSE</button>
+	        <button *ngIf="!isStopped()" (click)="stop ()">STOP </button>
+        </section>
+        <section>
+            Volume: <input  type="range" min="0" max="100" step="1" 
+                            [ngModel]       = "volume" 
+                            (ngModelChange) = "setVolume($event)"
+                            />
+        </section>
+        <section>
+            Duration: {{duration}}
         </section>
 	</section>
 `;
 
+type RenderingControlType = {
+    Mute            : string; // "0" ou "1"
+    PresetNameList  : string; // ex: "FactoryDefaults"
+    Volume          : string; // "0" à "100"
+    VolumeDB        : string; // déduction des décibels, opposé de Volume
+};
+type AVTransportType = {
+    AVTransportURI              : string; // URI du média
+    AVTransportURIMetaData      : string; // Représente le DIDL-Lite du média
+    CurrentMediaDuration        : string; // Format type "01:36:50"
+    CurrentPlayMode             : string; // ex: "NORMAL"
+    CurrentRecordQualityMode    : string; // ex: "NOT_IMPLEMENTED"
+    CurrentTrack                : string; // ex: "1"
+    CurrentTrackDuration        : string; // ex: "01:36:50"
+    CurrentTrackMetaData        : string; // Représente le DIDL-Lite de la piste
+    CurrentTrackURI             : string; // URI de la piste
+    CurrentTransportActions     : string; // Actions possible, ex: "Play,Pause,Stop,Seek,Next,Previous"
+    NextAVTransportURI          : string; // Prochaine URI
+    NextAVTransportURIMetaData  : string; // Prochain DIDL
+    NumberOfTracks              : string; // ex: "1"
+    PlaybackStorageMedium       : string; // ex: "NONE"
+    PossiblePlaybackStorageMedia: string; // ex "NONE,NETWORK,HDD,CD-DA,UNKNOWN"
+    PossibleRecordQualityModes  : string; // ex: "NOT_IMPLEMENTED"
+    PossibleRecordStorageMedia  : string; // ex "NOT_IMPLEMENTED"
+    RecordMediumWriteStatus     : string; // ex: "NOT_IMPLEMENTED"
+    RecordStorageMedium         : string; // ex: "NOT_IMPLEMENTED"
+    TransportPlaySpeed          : string; // ex: "1"
+    TransportState              : string; // ex: "PAUSED_PLAYBACK"
+    TransportStatus             : string; // ex: "OK"
+};
+type eventMediaPlayer = {
+    serviceType : string;
+    attribut    : string;
+    value       : number | string;
+};
+enum PLAY_STATE {PLAY, PAUSE, STOP}
 @Component({
     selector		: "m1m-media-renderer",
     template		: htmlTemplate
 })
 export class M1mMediaRenderer implements OnInit {
     @Input() nf	: MediaRenderer;
+    obsEvent    : Observable<any>;
+    state       : { "urn:schemas-upnp-org:service:AVTransport:1"        : AVTransportType;
+                    "urn:schemas-upnp-org:service:RenderingControl:1"   : RenderingControlType;
+                  };
+    duration    : string    = "";
+    mute        : boolean   = false;
+    volume      : number    = 0;
+    playState   : PLAY_STATE= PLAY_STATE.STOP;
     constructor(private cs: CommService) {
         console.log( "CommService:", cs);
     }
     ngOnInit(): void {
-        let obs = this.cs.subscribe( this.nf.id );
-        this.cs.call(this.nf.id, "getMediasStates", []).then( (data) => {
-            console.log("ngOnInit:", this.nf.id, "getMediasStates", []);
-            console.log( "\t=>", data );
+        this.obsEvent = this.cs.subscribe( this.nf.id );
+        this.obsEvent.subscribe( (event: {eventName: string, data: eventMediaPlayer}) => {
+            let data = event.data;
+            console.log( "M1mMediaRenderer UPnP event", event );
+            this.state[data.serviceType][data.attribut] = data.value;
+            this.updateRenderingControl ( this.state["urn:schemas-upnp-org:service:RenderingControl:1"]);
+            this.updateAVTransport      ( this.state["urn:schemas-upnp-org:service:AVTransport:1"]     );
         });
-        obs.subscribe( (event: any) => {
-           console.log( "M1mMediaRenderer UPnP event", event );
+        this.cs.call(this.nf.id, "getMediasStates", []).then( (state) => {
+            console.log( "getMediasStates =>", state );
+            this.state = state;
+            this.updateRenderingControl ( this.state["urn:schemas-upnp-org:service:RenderingControl:1"]);
+            this.updateAVTransport      ( this.state["urn:schemas-upnp-org:service:AVTransport:1"]     );
         });
     }
+    updateRenderingControl(renderingControl: RenderingControlType) {
+        this.mute   = renderingControl.Mute === "1" || renderingControl.Mute === "true";
+        this.volume =+renderingControl.Volume;
+    }
+    updateAVTransport(AVTransport: AVTransportType) {
+        this.duration = AVTransport.CurrentMediaDuration;
+        switch(AVTransport.TransportState) {
+            case "STOPPED"          : this.playState = PLAY_STATE.STOP ; break;
+            case "PLAYING"          : this.playState = PLAY_STATE.PLAY ; break;
+            case "PAUSED_PLAYBACK"  : this.playState = PLAY_STATE.PAUSE; break;
+        }
+    }
+    setVolume(volume: number) {
+        console.log( "setVolume", volume );
+        this.cs.setVolume(this.nf.id, volume);
+    }
+    isPlaying() : boolean {return this.playState === PLAY_STATE.PLAY ;}
+    isPaused () : boolean {return this.playState === PLAY_STATE.PAUSE;}
+    isStopped() : boolean {return this.playState === PLAY_STATE.STOP ;}
     play() : Promise<any> {
         return this.cs.play( this.nf.id );
     }
@@ -51,7 +130,9 @@ export class M1mMediaRenderer implements OnInit {
         console.log(this.nf.id, "loadMedia", media.serverId, media.mediaId);
         this.cs.loadMedia( this.nf.id, media.serverId, media.mediaId ).then( (rep) => {
             console.log("rep:", rep);
-            this.play();
+            this.play().then( () => {
+                // Subscribe to media server
+            });
         });
     }
 }
