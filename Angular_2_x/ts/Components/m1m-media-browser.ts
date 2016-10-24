@@ -1,47 +1,10 @@
 import { Component, Input 	} from "@angular/core";
 import {CommService, Directory, MediaServer, DataBrowse} from "../Services/CommService";
 
-
-const htmlTemplate = `
-    <section>
-        <h3>Liste des serveurs UPnP/DLNA</h3>
-        <header class="breadcrumb">
-            <label (click)="browseMediaServer(null)">DLNA</label>
-            <label *ngIf="ms" (click)="browseMediaServer(ms)  ">{{ms.name}}</label>
-            <label *ngFor="let dir of breadcrumb"
-                   (click)="browse(dir)"
-                   >{{dir.name}}</label>
-        </header>
-        <section class="content">
-            <section *ngIf="!ms">
-                <p *ngFor="let server of devices" (click)="browseMediaServer(server)">
-                    {{server | json}}
-                </p>
-            </section>
-            <section class="browse" *ngIf="ms && data">
-                Directories:
-                <p class="directory" *ngFor="let dir of data.directories" 
-                   (click)="browse(dir)">
-                    {{dir | json}}
-                </p>
-                Medias:
-                <p class="media" *ngFor="let media of data.medias" 
-                   [alx-draggable]="media"
-                   >
-                    {{media | json}}
-                </p>
-            </section>
-        </section>
-    </section>
-`;
-
 @Component({
     selector		: "m1m-media-browser",
-    template		: htmlTemplate,
-    styles          : [`.browse > * {
-                            display: inline-block;
-                            width: 100px;
-                        }`
+    templateUrl		: "ts/Components/m1m-media-browser.html",
+    styleUrls       : [ "ts/Components/m1m-media-browser.css"
                       ]
 })
 export class M1mMediaBrowser {

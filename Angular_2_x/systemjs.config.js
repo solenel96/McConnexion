@@ -44,7 +44,12 @@
   ngPackageNames.forEach(setPackageConfig);
   var config = {
     map: map,
-    packages: packages
+    packages: packages,
+    meta: {
+      'typescript': {
+        "exports": "ts"
+      }
+    }
   };
   System.config(config);
 })(this);

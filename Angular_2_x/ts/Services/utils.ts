@@ -1,11 +1,11 @@
 import * as SIO from "socket.io-client";
 
-console.log( "SIO", SIO );
+//sconsole.log( "SIO", SIO );
 
 class Utils {
     io : SocketIOClient.Socket;
     initIO(url: string) {
-        console.log( "SIO:", url, SIO );
+        //console.log( "SIO:", url, SIO );
         this.io = this.io || SIO.connect(url);
         return this;
     }

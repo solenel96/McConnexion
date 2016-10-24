@@ -1,0 +1,20 @@
+<section alx-dropzone
+         [alx-accept-fct] = "isMedia"
+         (alx-ondrop)     = "loadMedia($event)"
+>
+    <h3>{{nf.name}}</h3>
+    <section>
+        <button *ngIf="!isPlaying()" (click)="play ()">PLAY </button>
+        <button *ngIf=" isPlaying()" (click)="pause()">PAUSE</button>
+        <button *ngIf="!isStopped()" (click)="stop ()">STOP </button>
+    </section>
+    <section>
+        Volume: <input  type="range" min="0" max="100" step="1"
+                        [ngModel]       = "volume"
+                        (ngModelChange) = "setVolume($event)"
+    />
+    </section>
+    <section>
+        Duration: {{duration}}
+    </section>
+</section>

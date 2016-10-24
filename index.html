@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Connect to TActHab environment</title>
+	<script>
+		function load() {
+			let adresse = localStorage.getItem( "localStorage" ) || "http://localhost:8888";
+			document.querySelector("#adresse").value = adresse;
+			localStorage.setItem( "TActHab_adresse", adresse);
+		}
+		function change(evt) {
+			localStorage.setItem( "TActHab_adresse", evt.target.value);
+		}
+	</script>
+</head>
+<body onload="load()">
+	<h1>Connect to TActHab environment</h1>
+	<section>
+		<label></label>
+		<input id="adresse" onchange="change()"/>
+	</section>
+	<h2>Choose version</h2>
+	<ul>
+		<li><a href="Angular_1_5_x/index.html"	>Angular 1.5</a></li>
+		<li><a href="Angular_2_x/index.html"	>Angular 2</a></li>
+		<li><a href="Vanilla_TS_JS/index.html"	>JQuery + TypeScript/EcmaScript/Javascript</a></li>
+	</ul>
+</body>
+</html>

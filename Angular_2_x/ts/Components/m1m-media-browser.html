@@ -1,0 +1,32 @@
+<section>
+    <h3>Liste des serveurs UPnP/DLNA</h3>
+    <header class="breadcrumb">
+        <label (click)="browseMediaServer(null)" class="item-breadcrumb">DLNA</label>
+        <label *ngIf="ms" (click)="browseMediaServer(ms)" class="item-breadcrumb">{{ms.name}}</label>
+        <a *ngFor="let dir of breadcrumb"
+           (click)="browse(dir)"
+           class="item-breadcrumb"
+        >{{dir.name}}</a>
+    </header>
+    <section class="content">
+        <section *ngIf="!ms">
+            <p *ngFor="let server of devices" (click)="browseMediaServer(server)">
+                {{server | json}}
+            </p>
+        </section>
+        <section class="browse" *ngIf="ms && data">
+            <h3>Directories:</h3>
+            <p class="directory" *ngFor="let dir of data.directories"
+               (click)="browse(dir)">
+                {{dir | json}}
+            </p>
+            <hr/>
+            <h3>Medias:</h3>
+            <p class="media" *ngFor="let media of data.medias"
+               [alx-draggable]="media"
+            >
+                {{media | json}}
+            </p>
+        </section>
+    </section>
+</section>

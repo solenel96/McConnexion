@@ -2,29 +2,6 @@ import { Component, Input, OnInit 	} from "@angular/core";
 import {CommService, MediaRenderer, Media} from "../Services/CommService";
 import {Observable} from "rxjs";
 
-const htmlTemplate = `
-	<section alx-dropzone
-	         [alx-accept-fct] = "isMedia"
-	         (alx-ondrop)     = "loadMedia($event)"
-	        >
-	    <h3>{{nf.name}}</h3>
-	    <section>
-	        <button *ngIf="!isPlaying()" (click)="play ()">PLAY </button>
-	        <button *ngIf=" isPlaying()" (click)="pause()">PAUSE</button>
-	        <button *ngIf="!isStopped()" (click)="stop ()">STOP </button>
-        </section>
-        <section>
-            Volume: <input  type="range" min="0" max="100" step="1" 
-                            [ngModel]       = "volume" 
-                            (ngModelChange) = "setVolume($event)"
-                            />
-        </section>
-        <section>
-            Duration: {{duration}}
-        </section>
-	</section>
-`;
-
 type RenderingControlType = {
     Mute            : string; // "0" ou "1"
     PresetNameList  : string; // ex: "FactoryDefaults"
@@ -63,7 +40,8 @@ type eventMediaPlayer = {
 enum PLAY_STATE {PLAY, PAUSE, STOP}
 @Component({
     selector		: "m1m-media-renderer",
-    template		: htmlTemplate
+    templateUrl		: "ts/Components/m1m-media-renderer.html",
+    styleUrls       : [ "ts/Components/m1m-media-renderer.css" ]
 })
 export class M1mMediaRenderer implements OnInit {
     @Input() nf	: MediaRenderer;
@@ -77,29 +55,31 @@ export class M1mMediaRenderer implements OnInit {
     timeoutVol  : number;
     playState   : PLAY_STATE= PLAY_STATE.STOP;
     constructor(private cs: CommService) {
-        console.log( "CommService:", cs);
+        // console.log( "CommService:", cs);
     }
     ngOnInit(): void {
         this.obsEvent = this.cs.subscribe( this.nf.id );
         this.obsEvent.subscribe( (event: {eventName: string, data: eventMediaPlayer}) => {
             let data = event.data;
-            console.log( "M1mMediaRenderer UPnP event", event );
+            //console.log( "M1mMediaRenderer UPnP event", event );
             this.state[data.serviceType][data.attribut] = data.value;
             this.updateRenderingControl ( this.state["urn:schemas-upnp-org:service:RenderingControl:1"]);
             this.updateAVTransport      ( this.state["urn:schemas-upnp-org:service:AVTransport:1"]     );
         });
         this.cs.call(this.nf.id, "getMediasStates", []).then( (state) => {
-            console.log( "getMediasStates =>", state );
+            //console.log( "getMediasStates =>", state );
             this.state = state;
             this.updateRenderingControl ( this.state["urn:schemas-upnp-org:service:RenderingControl:1"]);
             this.updateAVTransport      ( this.state["urn:schemas-upnp-org:service:AVTransport:1"]     );
         });
     }
     updateRenderingControl(renderingControl: RenderingControlType) {
+        if(!renderingControl) return;
         this.mute   = renderingControl.Mute === "1" || renderingControl.Mute === "true";
         this.volume =+renderingControl.Volume;
     }
     updateAVTransport(AVTransport: AVTransportType) {
+        if(!AVTransport) return;
         this.duration = AVTransport.CurrentMediaDuration;
         switch(AVTransport.TransportState) {
             case "STOPPED"          : this.playState = PLAY_STATE.STOP ; break;
@@ -110,8 +90,8 @@ export class M1mMediaRenderer implements OnInit {
     setVolume(volume: number) {
         // console.log( "setVolume", volume );
         clearTimeout(this.timeoutVol);
-        this.timeoutVol = setTimeout( () => this.cs.setVolume(this.nf.id, volume)
-                                    , 50 );
+        this.timeoutVol = window.setTimeout ( () => this.cs.setVolume(this.nf.id, volume)
+                                            , 50 );
     }
     isPlaying() : boolean {return this.playState === PLAY_STATE.PLAY ;}
     isPaused () : boolean {return this.playState === PLAY_STATE.PAUSE;}
