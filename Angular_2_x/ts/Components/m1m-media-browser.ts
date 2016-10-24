@@ -18,14 +18,14 @@ const htmlTemplate = `
                     {{server | json}}
                 </p>
             </section>
-            <section *ngIf="ms && data">
+            <section class="browse" *ngIf="ms && data">
                 Directories:
-                <p *ngFor="let dir of data.directories" 
+                <p class="directory" *ngFor="let dir of data.directories" 
                    (click)="browse(dir)">
                     {{dir | json}}
                 </p>
                 Medias:
-                <p *ngFor="let media of data.medias" 
+                <p class="media" *ngFor="let media of data.medias" 
                    [alx-draggable]="media"
                    >
                     {{media | json}}
@@ -37,7 +37,12 @@ const htmlTemplate = `
 
 @Component({
     selector		: "m1m-media-browser",
-    template		: htmlTemplate
+    template		: htmlTemplate,
+    styles          : [`.browse > * {
+                            display: inline-block;
+                            width: 100px;
+                        }`
+                      ]
 })
 export class M1mMediaBrowser {
     @Input() devices	: MediaServer[];

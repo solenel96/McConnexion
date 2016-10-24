@@ -74,6 +74,7 @@ export class M1mMediaRenderer implements OnInit {
     duration    : string    = "";
     mute        : boolean   = false;
     volume      : number    = 0;
+    timeoutVol  : number;
     playState   : PLAY_STATE= PLAY_STATE.STOP;
     constructor(private cs: CommService) {
         console.log( "CommService:", cs);
@@ -107,8 +108,10 @@ export class M1mMediaRenderer implements OnInit {
         }
     }
     setVolume(volume: number) {
-        console.log( "setVolume", volume );
-        this.cs.setVolume(this.nf.id, volume);
+        // console.log( "setVolume", volume );
+        clearTimeout(this.timeoutVol);
+        this.timeoutVol = setTimeout( () => this.cs.setVolume(this.nf.id, volume)
+                                    , 50 );
     }
     isPlaying() : boolean {return this.playState === PLAY_STATE.PLAY ;}
     isPaused () : boolean {return this.playState === PLAY_STATE.PAUSE;}
