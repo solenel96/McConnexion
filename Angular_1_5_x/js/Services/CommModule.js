@@ -19,10 +19,11 @@ var serviceComm = {
             if(serviceComm.onupdate) {serviceComm.onupdate( "appear", "BrickUPnP_MediaServer", brick );}
         }
     },
-    init        : function() {
+    init        : function( origin ) {
+        origin = origin || location.origin;
         if(initDone) {return this;} else {initDone = true;}
-        utils.initIO( location.hostname + ":" + location.port + "/m2m" );
-        utils.XHR( "GET", "/getContext").then( function(xhr) {
+        utils.initIO( `${origin}/m2m` );
+        utils.XHR( "GET", `${origin}/getContext`).then( function(xhr) {
             var i, context = JSON.parse( xhr.responseText );
             console.log( "received context:", context);
             for(i in context.bricks ) {
@@ -124,6 +125,6 @@ var serviceComm = {
 };
 
 CommModule.factory('CommService', function() {
-    return serviceComm.init();
+    return serviceComm.init( localStorage.getItem( "TActHab_adresse" ) );
 });
 
