@@ -4,32 +4,36 @@
  */
 (function(global) {
   // map tells the System loader where to look for things
-  var map = {
-    'main':                       './js',
-    '@angular':                   './node_modules/@angular',
-    'angular2-in-memory-web-api': './node_modules/angular2-in-memory-web-api',
-    'rxjs':                       './node_modules/rxjs',
-    "socket.io-client":           "./node_modules/socket.io-client/socket.io.js"
-  };
+    var map = {
+        'main':                         './js',
+        '@angular':                     './node_modules/@angular',
+        'angular2-in-memory-web-api':   './node_modules/angular2-in-memory-web-api',
+        'rxjs':                         './node_modules/rxjs',
+        "socket.io-client":             "./node_modules/socket.io-client/socket.io.js",
+        "@polymer":                     "./node_modules/@polymer",
+        "@vaadin/angular2-polymer":     "./node_modules/@vaadin/angular2-polymer"
+    };
   // packages tells the System loader how to load when no filename and/or no extension
-  var packages = {
-    'main':                       { main: 'main.js',  defaultExtension: 'js', format: 'register' },
-    'rxjs':                       { defaultExtension: 'js' },
-    'angular2-in-memory-web-api': { main: 'index.js', defaultExtension: 'js' },
-    "socket.io-client":           {"defaultExtension": "js"}
-  };
-  var ngPackageNames = [
-    'common',
-    'compiler',
-    'core',
-    'forms',
-    'http',
-    'platform-browser',
-    'platform-browser-dynamic',
-    'router',
-    'router-deprecated',
-    'upgrade'
-  ];
+    var packages = {
+        'main':                         { main: 'main.js',  defaultExtension: 'js', format: 'register' },
+        'rxjs':                         { defaultExtension: 'js' },
+        'angular2-in-memory-web-api':   { main: 'index.js', defaultExtension: 'js' },
+        "socket.io-client":             {"defaultExtension": "js"},
+        "paper-slider":                 { main: "paper-slider.html" },
+        "@vaadin/angular2-polymer":     { main: "./index.js", defaultExtension: "js" }
+    };
+    var ngPackageNames = [
+        'common',
+        'compiler',
+        'core',
+        'forms',
+        'http',
+        'platform-browser',
+        'platform-browser-dynamic',
+        'router',
+        'router-deprecated',
+        'upgrade'
+    ];
   // Individual files (~300 requests):
   function packIndex(pkgName) {
     packages['@angular/'+pkgName] = { main: 'index.js', defaultExtension: 'js' };

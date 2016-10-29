@@ -10,6 +10,7 @@
 			localStorage.setItem( "TActHab_adresse", adresse);
 		}
 		function change(evt) {
+			//console.log()
 			localStorage.setItem( "TActHab_adresse", evt.target.value);
 		}
 	</script>
@@ -18,7 +19,7 @@
 	<h1>Connect to TActHab environment</h1>
 	<section>
 		<label></label>
-		<input id="adresse" onchange="change()"/>
+		<input id="adresse" onchange="change(event)"/>
 	</section>
 	<h2>Choose version</h2>
 	<ul>

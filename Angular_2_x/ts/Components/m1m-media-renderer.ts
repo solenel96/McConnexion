@@ -61,13 +61,13 @@ export class M1mMediaRenderer implements OnInit {
         this.obsEvent = this.cs.subscribe( this.nf.id );
         this.obsEvent.subscribe( (event: {eventName: string, data: eventMediaPlayer}) => {
             let data = event.data;
-            //console.log( "M1mMediaRenderer UPnP event", event );
+            console.log( "M1mMediaRenderer UPnP event", event );
             this.state[data.serviceType][data.attribut] = data.value;
             this.updateRenderingControl ( this.state["urn:schemas-upnp-org:service:RenderingControl:1"]);
             this.updateAVTransport      ( this.state["urn:schemas-upnp-org:service:AVTransport:1"]     );
         });
         this.cs.call(this.nf.id, "getMediasStates", []).then( (state) => {
-            //console.log( "getMediasStates =>", state );
+            console.log( "getMediasStates =>", state );
             this.state = state;
             this.updateRenderingControl ( this.state["urn:schemas-upnp-org:service:RenderingControl:1"]);
             this.updateAVTransport      ( this.state["urn:schemas-upnp-org:service:AVTransport:1"]     );

@@ -3,7 +3,7 @@
 import { platformBrowserDynamic }   from "@angular/platform-browser-dynamic";
 import {Component}                  from "@angular/core";
 import { BrowserModule }    		from "@angular/platform-browser";
-import { NgModule } 				from "@angular/core";
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA  } 				from "@angular/core";
 
 import { M1mMultimediaModule } 		from "./m1m-multimedia-module";
 import { DragDropModule } 			from "./DragDrop/DragDropModule";
@@ -21,7 +21,8 @@ class RootManager {
 @NgModule({
 	imports     : [ M1mMultimediaModule, BrowserModule, DragDropModule ],
 	declarations: [ RootManager ],
-	bootstrap   : [ RootManager ]
+	bootstrap   : [ RootManager ],
+    schemas     : [ CUSTOM_ELEMENTS_SCHEMA  ]
 })
 export class AppModule {}
 
