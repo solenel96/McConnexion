@@ -12,7 +12,8 @@
         <paper-slider
                 min   = "0"
                 max   = "100"
-                [value] = "volume"
+                [ngModel]       = "volume"
+                (ngModelChange) = "setVolume($event)"
         ></paper-slider>
         Volume: <input  type="range" min="0" max="100" step="1"
                         [ngModel]       = "volume"
