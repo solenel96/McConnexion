@@ -5,7 +5,8 @@
 	<title>Connect to TActHab environment</title>
 	<script>
 		function load() {
-			let adresse = localStorage.getItem( "localStorage" ) || "http://localhost:8888";
+			let adresse = localStorage.getItem( "TActHab_adresse" ) || "http://localhost:8888";
+			console.log( "adresse", adresse );
 			document.querySelector("#adresse").value = adresse;
 			localStorage.setItem( "TActHab_adresse", adresse);
 		}
