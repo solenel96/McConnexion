@@ -8,6 +8,9 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA  } 				from "@angular/core";
 import { M1mMultimediaModule } 		from "./m1m-multimedia-module";
 import { DragDropModule } 			from "./DragDrop/DragDropModule";
 
+import { PolymerElement } from "@vaadin/angular2-polymer";
+import "@vaadin/angular2-polymer";
+
 @Component({
 	selector	: "root-manager",
 	template	: `<comp-multimedia-manager title="Gestion des services UPnP/DLNA" 
@@ -20,7 +23,7 @@ class RootManager {
 //enableProdMode();
 @NgModule({
 	imports     : [ M1mMultimediaModule, BrowserModule, DragDropModule ],
-	declarations: [ RootManager ],
+	declarations: [ RootManager,  ],
 	bootstrap   : [ RootManager ],
     schemas     : [ CUSTOM_ELEMENTS_SCHEMA  ]
 })
