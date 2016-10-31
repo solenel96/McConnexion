@@ -2,9 +2,10 @@ import { Component, Input 	} from "@angular/core";
 import {CommService, DataDlnaDevices, MediaServer, MediaRenderer} from "../Services/CommService";
 
 @Component({
+    moduleId        : __moduleName || module.id,
     selector		: "comp-multimedia-manager",
-    templateUrl		: "ts/Components/m1m-multimedia-manager.html",
-    styleUrls       : [ "ts/Components/m1m-multimedia-manager.css" ]
+    templateUrl		: "m1m-multimedia-manager.html", //"ts/Components/m1m-multimedia-manager.html", //
+    styleUrls       : [ "m1m-multimedia-manager.css" ] // [ "ts/Components/m1m-multimedia-manager.css" ]
 })
 export class CompMultimediaManager {
     @Input() title	: string;

@@ -39,5 +39,3 @@ class Utils {
 }
 
 export let utils : Utils = new Utils();
-
-

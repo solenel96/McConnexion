@@ -39,9 +39,10 @@ type eventMediaPlayer = {
 };
 enum PLAY_STATE {PLAY, PAUSE, STOP}
 @Component({
+    moduleId        : __moduleName || module.id,
     selector		: "m1m-media-renderer",
-    templateUrl		: "ts/Components/m1m-media-renderer.html",
-    styleUrls       : [ "ts/Components/m1m-media-renderer.css" ]
+    templateUrl		: "m1m-media-renderer.html",
+    styleUrls       : [ "m1m-media-renderer.css" ]
 })
 export class M1mMediaRenderer implements OnInit {
     @Input() nf	: MediaRenderer;

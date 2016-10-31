@@ -2,16 +2,17 @@ import { Component, Input 	} from "@angular/core";
 import {CommService, Directory, MediaServer, DataBrowse} from "../Services/CommService";
 
 @Component({
+    moduleId        : __moduleName || module.id,
     selector		: "m1m-media-browser",
-    templateUrl		: "ts/Components/m1m-media-browser.html",
-    styleUrls       : [ "ts/Components/m1m-media-browser.css"
+    templateUrl		: "m1m-media-browser.html",
+    styleUrls       : [ "m1m-media-browser.css"
                       ]
 })
 export class M1mMediaBrowser {
     @Input() devices	: MediaServer[];
-    private breadcrumb  : Directory  [] = [];
-    private data        : DataBrowse;
-    private ms          : MediaServer;
+    breadcrumb  : Directory  [] = [];
+    data        : DataBrowse;
+    ms          : MediaServer;
     constructor(private cs: CommService) {
         // console.log( "CommService:", cs);
     }
