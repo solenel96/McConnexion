@@ -1,15 +1,13 @@
-/// <reference path="../typings/index.d.ts" />
-
 import { platformBrowserDynamic }   from "@angular/platform-browser-dynamic";
 import {Component}                  from "@angular/core";
 import { BrowserModule }    		from "@angular/platform-browser";
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA  } 				from "@angular/core";
 
 import { M1mMultimediaModule } 		from "./m1m-multimedia-module";
-import { DragDropModule } 			from "./DragDrop/DragDropModule";
+import { DragDropModule } 			from "alx-dragdrop/DragDropModule";
 
-import { PolymerElement } from "@vaadin/angular2-polymer";
-import "@vaadin/angular2-polymer";
+// import { PolymerElement } from "@vaadin/angular2-polymer";
+// import "@vaadin/angular2-polymer";
 
 @Component({
 	selector	: "root-manager",

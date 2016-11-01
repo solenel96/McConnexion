@@ -50,6 +50,7 @@ export class M1mMediaRenderer implements OnInit {
                     "urn:schemas-upnp-org:service:RenderingControl:1"   : RenderingControlType;
                   };
     duration    : string    = "";
+    currentMedia: Media;
     mute        : boolean   = false;
     volume      : number    = 0;
     timeoutVol  : number;
@@ -113,6 +114,7 @@ export class M1mMediaRenderer implements OnInit {
         console.log(this.nf.id, "loadMedia", media.serverId, media.mediaId);
         this.cs.loadMedia( this.nf.id, media.serverId, media.mediaId ).then( (rep) => {
             console.log("rep:", rep);
+            this.currentMedia   = media;
             this.play().then( () => {
                 // Subscribe to media server
             });

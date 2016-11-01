@@ -3,7 +3,7 @@ import {CommonModule}               from "@angular/common";
 import { FormsModule }   			from "@angular/forms";
 import { HttpModule } 				from "@angular/http";
 
-import { DragDropModule }           from "./DragDrop/DragDropModule";
+import { DragDropModule }           from "alx-dragdrop/DragDropModule";
 
 import { CompMultimediaManager }    from "./Components/m1m-multimedia-manager";
 import { M1mMediaRenderer }         from "./Components/m1m-media-renderer";

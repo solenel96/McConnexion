@@ -29,6 +29,16 @@ export interface Directory {
     iconURL     : string;
     directoryId : string;
 }
+
+export interface Ressource {
+    duration        : string;   // ex: 1:45:19.000
+    size            : number;
+    resolution      : string;   // ex: 720x304
+    bitrate         : number;
+    nrAudioChannels : number;
+    protocolInfo    : string;
+}
+
 export interface Media {
     serverId        : string;
     date            : string;
@@ -42,6 +52,12 @@ export interface Media {
     description     : string;
     longdescription : string;
     ressource       : string;
+    duration        : string;   // ex: 1:45:19.000
+    size            : number;
+    resolution      : string;   // ex: 720x304
+    bitrate         : number;
+    nrAudioChannels : number;
+    protocolInfo    : string;
     classe          : string;
 }
 export interface DataBrowse {
@@ -157,6 +173,7 @@ export class CommService {
                 for(let item of ResultDoc.querySelectorAll("item")) {
                     let node    : Node;
                     let media   : Media;
+                    let res = item.querySelector("res");
                     dataBrowse.medias.push( media = {
                         serverId        : mediaServerId,
                         date            : (node=item.querySelector("date"))?node.textContent:"inconnue",
@@ -169,7 +186,13 @@ export class CommService {
                         albumarturi     : (node=item.querySelector("albumarturi, albumArtURI, albumArtUri"))?node.textContent:"",
                         description     : (node=item.querySelector("description"))?node.textContent:"",
                         longdescription : (node=item.querySelector("longdescription, longDescription"))?node.textContent:"",
-                        ressource       : (node=item.querySelector("res"))?node.textContent:"",
+                        ressource       : res?res.textContent:"",
+                        duration        : res?( res.getAttribute("duration"       )||""):"",
+                        size            : res?(+res.getAttribute("size"           )||0 ):0 ,
+                        resolution      : res?( res.getAttribute("resolution"     )||""):"",
+                        bitrate         : res?(+res.getAttribute("bitrate"        )||0 ):0 ,
+                        nrAudioChannels : res?(+res.getAttribute("nrAudioChannels")||0 ):0 ,
+                        protocolInfo    : res?( res.getAttribute("protocolInfo"   )||""):"",
                         classe          : (node=item.querySelector("class"))?node.textContent:""
                     } );
                     for(let actor of item.querySelectorAll( "actor" )) {

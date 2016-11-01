@@ -85,7 +85,7 @@ gulp.task('watch', ['lint'], function () {
 
 gulp.task( 'tsc', function() {
 	typescriptInputs.forEach( function(def) {
-		var tsProject = tsc.createProject( def.config );
+		var tsProject = tsc.createProject( def.config, {typescript: require("typescript")} );
 		var tsresult = tsProject.src()
 								.pipe(sourcemaps.init( {sourceRoot: ""} ))
 								.pipe(tsc(tsProject));
