@@ -1,32 +1,42 @@
 <section>
-    <h3>Liste des serveurs UPnP/DLNA</h3>
-    <header class="breadcrumb">
-        <label (click)="browseMediaServer(null)" class="item-breadcrumb">DLNA</label>
-        <label *ngIf="ms" (click)="browseMediaServer(ms)" class="item-breadcrumb">{{ms.name}}</label>
-        <a *ngFor="let dir of breadcrumb"
+    <header class="bc">
+      <p (click)="browseMediaServer(null)" class="item-bc"><span class="glyphicon glyphicon-circle-arrow-left" aria-hidden="true"></span> DLNA</p>
+
+        <p *ngIf="ms" (click)="browseMediaServer(ms)" class="item-bc"><span class="glyphicon glyphicon-hdd" aria-hidden="true"></span>{{ms.name}}</p>
+        <p *ngFor="let dir of breadcrumb"
            (click)="browse(dir)"
-           class="item-breadcrumb"
-        >{{dir.name}}</a>
+           class="item-bc">
+           <span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>{{dir.name}}</p>
     </header>
     <section class="content">
         <section *ngIf="!ms">
-            <p *ngFor="let server of devices" (click)="browseMediaServer(server)">
-                {{server | json}}
+            <p class="server" *ngFor="let server of devices" (click)="browseMediaServer(server)">
+                <img src="{{server.iconURL}}"/>{{server.name }}
             </p>
         </section>
         <section class="browse" *ngIf="ms && data">
             <h3>Directories:</h3>
             <p class="directory" *ngFor="let dir of data.directories"
                (click)="browse(dir)">
-                {{dir | json}}
+                <span class="glyphicon glyphicon-folder-close" aria-hidden="true"></span>{{dir.name}}
             </p>
-            <hr/>
             <h3>Medias:</h3>
-            <p class="media" *ngFor="let media of data.medias"
-               [alx-draggable]="media"
-            >
-                {{media | json}}
-            </p>
+            <table cellpadding="0" cellspacing="0">
+                <tr class="media" *ngFor="let media of data.medias"
+                   [alx-draggable]="media"
+                >
+                <td>
+                  <span class="glyphicon glyphicon-move" aria-hidden="true"></span>
+                </td>
+                <td>
+                  <span class="media-title">{{ media.title }}</span><span class="media-creator">{{ media.creator }}</span>
+                </td>
+                <td class="media-duration">
+                  <!-- {{ duration }} -->
+                  00:00
+                </td>
+              </tr>
+          </table>
         </section>
     </section>
 </section>
