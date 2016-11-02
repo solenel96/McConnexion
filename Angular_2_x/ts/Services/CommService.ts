@@ -146,6 +146,48 @@ export class CommService {
             });
         });
     }
+    getMediaFromDIDL( descr: string | Element ) : Media {
+        let media : Media, item : Element;
+        if(typeof descr === "string") {
+            let doc   = this.parser.parseFromString( descr, "text/xml" );
+            item = doc?doc.querySelector("item"):null;
+        } else {
+            item = descr;
+        }
+        if(item) {
+            let node: Element;
+            let res = item.querySelector("res");
+            media = {
+                serverId        : undefined,
+                date            : (node=item.querySelector("date"))?node.textContent:"inconnue",
+                title           : (node=item.querySelector("title"))?node.textContent:"inconnu",
+                icon            : (node=item.querySelector("icon"))?node.textContent:"images/media_icon.jpg",
+                mediaId         : item.getAttribute("id"),
+                creator         : (node=item.querySelector("creator"))?node.textContent:"inconnu",
+                actors          : [],
+                genres          : [],
+                albumarturi     : (node=item.querySelector("albumarturi, albumArtURI, albumArtUri"))?node.textContent:"",
+                description     : (node=item.querySelector("description"))?node.textContent:"",
+                longdescription : (node=item.querySelector("longdescription, longDescription"))?node.textContent:"",
+                ressource       : res?res.textContent:"",
+                duration        : res?( res.getAttribute("duration"       )||""):"",
+                size            : res?(+res.getAttribute("size"           )||0 ):0 ,
+                resolution      : res?( res.getAttribute("resolution"     )||""):"",
+                bitrate         : res?(+res.getAttribute("bitrate"        )||0 ):0 ,
+                nrAudioChannels : res?(+res.getAttribute("nrAudioChannels")||0 ):0 ,
+                protocolInfo    : res?( res.getAttribute("protocolInfo"   )||""):"",
+                classe          : (node=item.querySelector("class"))?node.textContent:""
+            };
+            for(let actor of item.querySelectorAll( "actor" )) {
+                media.actors.push( actor.textContent );
+            }
+            for(let genre of item.querySelectorAll( "genre" )) {
+                media.genres.push( genre.textContent );
+            }
+        }
+        console.log("media =>", media);
+        return media;
+    }
     browse(mediaServerId: string, directoryId: string = "0") : Promise<DataBrowse> {
         return utils.call( mediaServerId, "Browse", [directoryId] ).then( (dataString) => {
             let dataBrowse : DataBrowse = {
@@ -171,35 +213,10 @@ export class CommService {
 
                 // Parse item
                 for(let item of ResultDoc.querySelectorAll("item")) {
-                    let node    : Node;
-                    let media   : Media;
-                    let res = item.querySelector("res");
-                    dataBrowse.medias.push( media = {
-                        serverId        : mediaServerId,
-                        date            : (node=item.querySelector("date"))?node.textContent:"inconnue",
-                        title           : (node=item.querySelector("title"))?node.textContent:"inconnu",
-                        icon            : (node=item.querySelector("icon"))?node.textContent:"images/media_icon.jpg",
-                        mediaId         : item.getAttribute("id"),
-                        creator         : (node=item.querySelector("creator"))?node.textContent:"inconnu",
-                        actors          : [],
-                        genres          : [],
-                        albumarturi     : (node=item.querySelector("albumarturi, albumArtURI, albumArtUri"))?node.textContent:"",
-                        description     : (node=item.querySelector("description"))?node.textContent:"",
-                        longdescription : (node=item.querySelector("longdescription, longDescription"))?node.textContent:"",
-                        ressource       : res?res.textContent:"",
-                        duration        : res?( res.getAttribute("duration"       )||""):"",
-                        size            : res?(+res.getAttribute("size"           )||0 ):0 ,
-                        resolution      : res?( res.getAttribute("resolution"     )||""):"",
-                        bitrate         : res?(+res.getAttribute("bitrate"        )||0 ):0 ,
-                        nrAudioChannels : res?(+res.getAttribute("nrAudioChannels")||0 ):0 ,
-                        protocolInfo    : res?( res.getAttribute("protocolInfo"   )||""):"",
-                        classe          : (node=item.querySelector("class"))?node.textContent:""
-                    } );
-                    for(let actor of item.querySelectorAll( "actor" )) {
-                        media.actors.push( actor.textContent );
-                    }
-                    for(let genre of item.querySelectorAll( "genre" )) {
-                        media.genres.push( genre.textContent );
+                    let media = this.getMediaFromDIDL(item);
+                    media.serverId = mediaServerId;
+                    if (media) {
+                        dataBrowse.medias.push(media);
                     }
                 } // End of items parsing
             } catch(err) {dataBrowse.error = err;}

@@ -62,16 +62,27 @@ export class M1mMediaRenderer implements OnInit {
         this.obsEvent = this.cs.subscribe( this.nf.id );
         this.obsEvent.subscribe( (event: {eventName: string, data: eventMediaPlayer}) => {
             let data = event.data;
-            console.log( "M1mMediaRenderer UPnP event", event );
+            console.log( "M1mMediaRenderer UPnP event", event.data.attribut );
             this.state[data.serviceType][data.attribut] = data.value;
             this.updateRenderingControl ( this.state["urn:schemas-upnp-org:service:RenderingControl:1"]);
             this.updateAVTransport      ( this.state["urn:schemas-upnp-org:service:AVTransport:1"]     );
+            //
+            if (data.serviceType === "UPnP_Media" && data.attribut === "itemMetadata") {
+                this.currentMedia = this.cs.getMediaFromDIDL( data.value as string );
+            }
         });
         this.cs.call(this.nf.id, "getMediasStates", []).then( (state) => {
             console.log( "getMediasStates =>", state );
             this.state = state;
-            this.updateRenderingControl ( this.state["urn:schemas-upnp-org:service:RenderingControl:1"]);
-            this.updateAVTransport      ( this.state["urn:schemas-upnp-org:service:AVTransport:1"]     );
+            let AVTransport      = this.state["urn:schemas-upnp-org:service:AVTransport:1"],
+                RenderingControl = this.state["urn:schemas-upnp-org:service:RenderingControl:1"],
+                UPnP_Media       = this.state["UPnP_Media"];
+            this.updateRenderingControl ( RenderingControl );
+            this.updateAVTransport      ( AVTransport      );
+            if ( UPnP_Media && UPnP_Media.itemMetadata ) {
+                this.currentMedia = this.cs.getMediaFromDIDL( UPnP_Media.itemMetadata );
+                // this.currentMedia.duration = AVTransport.CurrentMediaDuration;
+            }
         });
     }
     updateRenderingControl(renderingControl: RenderingControlType) {
@@ -114,7 +125,6 @@ export class M1mMediaRenderer implements OnInit {
         console.log(this.nf.id, "loadMedia", media.serverId, media.mediaId);
         this.cs.loadMedia( this.nf.id, media.serverId, media.mediaId ).then( (rep) => {
             console.log("rep:", rep);
-            this.currentMedia   = media;
             this.play().then( () => {
                 // Subscribe to media server
             });

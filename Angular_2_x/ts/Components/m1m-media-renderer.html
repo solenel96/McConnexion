@@ -23,7 +23,9 @@
                         (ngModelChange) = "setVolume($event)"
     />-->
     </section>
-    <section>
-        <code>{{currentMedia | json}}</code>
+    <section *ngIf="currentMedia">
+        <img src="{{currentMedia.icon}}" height="50"/>
+        {{currentMedia.duration}}
+        <!--<code>{{currentMedia | json}}</code>-->
     </section>
 </section>
