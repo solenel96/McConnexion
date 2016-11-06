@@ -1,36 +1,30 @@
 <section>
-    <header class="bc">
-      <p (click)="browseMediaServer(null)" class="item-bc"><span class="glyphicon glyphicon-circle-arrow-left" aria-hidden="true"></span> DLNA</p>
-
-        <p *ngIf="ms" (click)="browseMediaServer(ms)" class="item-bc"><span class="glyphicon glyphicon-hdd" aria-hidden="true"></span>{{ms.name}}</p>
-        <p *ngFor="let dir of breadcrumb"
-           (click)="browse(dir)"
-           class="item-bc">
-           <span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>{{dir.name}}</p>
+    <header>
+        <span (click)="browseMediaServer(null)">Servers</span>
+        <span *ngIf="ms" (click)="browseMediaServer(ms)">→ {{ms.name}}</span>
+        <span *ngFor="let dir of breadcrumb"
+           (click)="browse(dir)">
+           → {{dir.name}}</span>
     </header>
-    <section class="content">
+    <section>
         <section *ngIf="!ms">
-            <p class="server" *ngFor="let server of devices" (click)="browseMediaServer(server)">
-                <img src="{{server.iconURL}}"/>{{server.name }}
+            <p *ngFor="let server of devices" (click)="browseMediaServer(server)" style="border:1px solid #DDD">
+                • {{server.name }}
             </p>
         </section>
-        <section class="browse" *ngIf="ms && data">
+        <section *ngIf="ms && data" style="border:1px solid #DDD">
             <h3>Directories:</h3>
-            <p class="directory" *ngFor="let dir of data.directories"
+            <p *ngFor="let dir of data.directories"
                (click)="browse(dir)">
                 <span class="glyphicon glyphicon-folder-close" aria-hidden="true"></span>{{dir.name}}
             </p>
             <h3>Medias:</h3>
-            <table cellpadding="0" cellspacing="0">
-                <tr class="media" *ngFor="let media of data.medias"
+            <table cellpadding="0" cellspacing="0" width="100%">
+                <tr style="cursor:move" *ngFor="let media of data.medias"
                    [alx-draggable]="media"
                 >
                 <td>
-                  <!--<span class="glyphicon glyphicon-move" aria-hidden="true"></span>-->
-                    <img src="{{media.icon}}" height="50"/>
-                </td>
-                <td>
-                  <span class="media-title">{{ media.title }}</span><span class="media-creator">{{ media.creator }}</span>
+                  {{ media.title }} — {{ media.creator }}
                 </td>
                 <td class="media-duration">
                   <!-- {{ duration }} -->

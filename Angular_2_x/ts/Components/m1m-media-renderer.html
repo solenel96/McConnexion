@@ -1,31 +1,30 @@
 <section class="m1m-media-renderer-controls" alx-dropzone
          [alx-accept-fct] = "isMedia"
          (alx-ondrop)     = "loadMedia($event)"
+         style="border:1px solid #DDD"
 >
-<h3><span class="glyphicon glyphicon-music" aria-hidden="true"></span> {{nf.name}}</h3>
+<p>• {{nf.name}}</p>
 
     <section>
-        <button *ngIf="!isPlaying()" (click)="play ()"><span class="glyphicon glyphicon-play" aria-hidden="true"></span></button>
-        <button *ngIf=" isPlaying()" (click)="pause()"><span class="glyphicon glyphicon-pause" aria-hidden="true"></span></button>
-        <button *ngIf="!isStopped()" (click)="stop ()"><span class="glyphicon glyphicon-stop" aria-hidden="true"></span> </button>
+        <button *ngIf="!isPlaying()" (click)="play ()">play</button>
+        <button *ngIf=" isPlaying()" (click)="pause()">pause</button>
+        <button *ngIf="!isStopped()" (click)="stop ()">stop</button>
     </section>
     <section class="volume">
-        <span class="glyphicon glyphicon-volume-down" aria-hidden="true"></span>
         <paper-slider
                 min   = "0"
                 max   = "100"
                 [ngModel]       = "volume"
                 (ngModelChange) = "setVolume($event)"
         ></paper-slider>
-        <span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span>
         <!--<input  type="range" min="0" max="100" step="1"
                         [ngModel]       = "volume"
                         (ngModelChange) = "setVolume($event)"
     />-->
     </section>
     <section *ngIf="currentMedia">
-        <img src="{{currentMedia.icon}}" height="50"/>
-        {{currentMedia.duration}}
-        <!--<code>{{currentMedia | json}}</code>-->
+        Duration: {{currentMedia.duration}}<br />
+        currentMedia object:<br />
+        <code>{{currentMedia | json}}</code>
     </section>
 </section>
