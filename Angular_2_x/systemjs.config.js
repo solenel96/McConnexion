@@ -29,7 +29,7 @@
             "@polymer": "npm:@polymer",
             "@vaadin/angular2-polymer": "npm:@vaadin/angular2-polymer",
             "hammerjs": "npm:hammerjs",
-            "alx-dragdrop": "npm:alx-dragdrop"
+            "alx-dragdrop/DragDropModule": "npm:alx-dragdrop"
         },
         // packages tells the System loader how to load when no filename and/or no extension
         packages: {
@@ -39,7 +39,7 @@
             "paper-slider": {main: "paper-slider.html"},
             "@vaadin/angular2-polymer": {main: "./index.js", defaultExtension: "js"},
             "hammerjs": {main: "./hammer.min.js", defaultExtension: "js"},
-            "alx-dragdrop": {main: "./hammer.min.js", defaultExtension: "js"}
+            "alx-dragdrop/DragDropModule": {main: "./DragDropModule.js", defaultExtension: "js"}
         }
     }); // end of System.config
 
