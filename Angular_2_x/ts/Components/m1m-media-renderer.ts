@@ -1,6 +1,7 @@
-import { Component, Input, OnInit 	} from "@angular/core";
+import {Component, Input, OnInit} from "@angular/core";
 import {CommService, MediaRenderer, Media} from "../Services/CommService";
 import {Observable} from "rxjs";
+import "hammerjs";
 
 type RenderingControlType = {
     Mute            : string; // "0" ou "1"
@@ -56,9 +57,10 @@ export class M1mMediaRenderer implements OnInit {
     timeoutVol  : number;
     playState   : PLAY_STATE= PLAY_STATE.STOP;
     constructor(private cs: CommService) {
-        // console.log( "CommService:", cs);
+        // ...
     }
     ngOnInit(): void {
+        // From TActHab
         this.obsEvent = this.cs.subscribe( this.nf.id );
         this.obsEvent.subscribe( (event: {eventName: string, data: eventMediaPlayer}) => {
             let data = event.data;
@@ -84,6 +86,9 @@ export class M1mMediaRenderer implements OnInit {
                 // this.currentMedia.duration = AVTransport.CurrentMediaDuration;
             }
         });
+    }
+    Log(str: string) {
+        console.log("Log:", str);
     }
     updateRenderingControl(renderingControl: RenderingControlType) {
         if(!renderingControl) return;

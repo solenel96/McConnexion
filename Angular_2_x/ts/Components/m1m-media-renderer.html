@@ -2,6 +2,9 @@
          [alx-accept-function] = "isMedia"
          (alx-ondrop)     = "loadMedia($event)"
          style="border:1px solid #DDD"
+         (swipeleft)="Log('swipeleft')"
+         (tap)="Log('tap')"
+         (press)="Log('press')"
 >
 <p>• {{nf.name}}</p>
 
