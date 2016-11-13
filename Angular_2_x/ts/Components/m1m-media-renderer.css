@@ -1,0 +1,11 @@
+section[alx-dropzone].dropCandidate {
+    background: lightgreen;
+}
+
+section[alx-dropzone].dropCandidate.canDrop {
+    background: green;
+}
+
+.truc {
+    background: red;
+}

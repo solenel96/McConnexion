@@ -1,14 +1,17 @@
-<section class="m1m-media-renderer-controls" alx-dropzone
-         [alx-accept-function] = "isMedia"
-         (alx-ondrop)     = "loadMedia($event)"
+<section class="m1m-media-renderer-controls"
+         alx-dropzone
+         [alx-accept-function]  = "isMedia"
+         (alx-ondrop)           = "loadMedia($event)"
+         alx-drag-css           = "dropCandidate"
+         alx-drag-over-css      = "canDrop"
          style="border:1px solid #DDD"
          (swipeleft)="Log('swipeleft')"
-         (tap)="Log('tap')"
+         (tap)="toggleTap()"
          (press)="Log('press')"
 >
 <p>• {{nf.name}}</p>
 
-    <section>
+    <section [class.truc]="tapped">
         <button *ngIf="!isPlaying()" (click)="play ()">play</button>
         <button *ngIf=" isPlaying()" (click)="pause()">pause</button>
         <button *ngIf="!isStopped()" (click)="stop ()">stop</button>

@@ -56,6 +56,7 @@ export class M1mMediaRenderer implements OnInit {
     volume      : number    = 0;
     timeoutVol  : number;
     playState   : PLAY_STATE= PLAY_STATE.STOP;
+    tapped      = false;
     constructor(private cs: CommService) {
         // ...
     }
@@ -89,6 +90,9 @@ export class M1mMediaRenderer implements OnInit {
     }
     Log(str: string) {
         console.log("Log:", str);
+    }
+    toggleTap() {
+        this.tapped = !this.tapped;
     }
     updateRenderingControl(renderingControl: RenderingControlType) {
         if(!renderingControl) return;
