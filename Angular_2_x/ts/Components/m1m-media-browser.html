@@ -15,11 +15,12 @@
         <section *ngIf="ms && data" style="border:1px solid #DDD">
             <h3>Directories:</h3>
             <p *ngFor="let dir of data.directories"
-               (click)="browse(dir)">
-                <span class="glyphicon glyphicon-folder-close" aria-hidden="true"></span>{{dir.name}}
+               (click)="browse(dir)"
+               class="dir">
+                {{dir.name}}
             </p>
             <h3>Medias:</h3>
-            <table cellpadding="0" cellspacing="0" width="100%">
+            <table cellpadding="0" cellspacing="0" width="100%" class="medias">
                 <tr style="cursor:move" *ngFor="let media of data.medias"
                    [alx-draggable]="media"
                 >

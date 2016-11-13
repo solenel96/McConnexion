@@ -1,0 +1,28 @@
+// Mixins
+@mixin circle-div($d) {
+  max-width:  $d;
+  max-height: $d;
+  min-width:  $d;
+  min-height: $d;
+  border-radius: $d/2;
+}
+
+// Animations
+@keyframes slide-dir{
+  from{padding-left:100px}
+  to{padding-left:0px}
+}
+
+// Styles
+
+.dir,.medias{
+  animation-name: slide-dir;
+  animation-duration: .3s;
+  tr td{
+    transition: all .5s;
+  }
+  tr:active td{
+    background-color: lightgreen;
+    padding: 8px 0px;
+  }
+}

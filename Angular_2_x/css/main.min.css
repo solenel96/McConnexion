@@ -1,0 +1,1 @@
+@keyframes slide-dir{from{padding-left:100px}to{padding-left:0px}}.dir,.medias{animation-name:slide-dir;animation-duration:.3s}.dir tr td,.medias tr td{transition:all .5s}.dir tr:active td,.medias tr:active td{background-color:lightgreen;padding:8px 0px}
