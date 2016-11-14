@@ -3,11 +3,11 @@
          (alx-ondrop)           = "loadMedia($event)"
          alx-drag-css           = "dropCandidate"
          alx-drag-over-css      = "canDrop"
-         style="border:1px solid #DDD"
          (swipeleft)="Log('swipeleft')"
-         (tap)="toggleTap()"
-         [class.truc]="tapped"
+         (tap)="rootSection.classList.toggle('truc')"
          (press)="Log('press')"
+         [class.playing]="isPlaying()"
+         #rootSection
 >
 <p>• {{nf.name}}</p>
 

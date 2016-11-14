@@ -1,3 +1,11 @@
+section[alx-dropzone] {
+    border: 1px solid #DDD
+}
+
+section.playing {
+    border: solid black 2px;
+}
+
 section[alx-dropzone].dropCandidate {
     background: lightgreen;
 }
@@ -9,3 +17,4 @@ section[alx-dropzone].dropCandidate.canDrop {
 .truc {
     background: red;
 }
+
