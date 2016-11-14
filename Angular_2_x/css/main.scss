@@ -15,6 +15,13 @@
 
 // Styles
 
+.server{
+  background-color: #666;
+  color: white;
+  line-height: 3em;
+}
+
+
 .dir,.medias{
   animation-name: slide-dir;
   animation-duration: .3s;
@@ -25,4 +32,25 @@
     background-color: lightgreen;
     padding: 8px 0px;
   }
+}
+
+// tests styles Alex
+section[alx-dropzone] {
+    border: 1px solid #DDD
+}
+
+section.playing {
+    border: solid black 2px;
+}
+
+section[alx-dropzone].dropCandidate {
+    background: lightgreen;
+}
+
+section[alx-dropzone].dropCandidate.canDrop {
+    background: green;
+}
+
+.truc {
+    background: red;
 }
