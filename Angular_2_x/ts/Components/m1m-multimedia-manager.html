@@ -5,7 +5,7 @@
 <hr />
 
 <h2>Media Renderers</h2>
-
+selected: {{getCurrentMediaRendererName()}}
 <m1m-media-renderer *ngFor="let renderer of mediaRenderers"
                     [nf]="renderer"
                     (tap)="selectMediaRenderer(renderer)"
