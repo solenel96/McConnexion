@@ -8,6 +8,7 @@ import {CommService, DataDlnaDevices, MediaServer, MediaRenderer} from "../Servi
 })
 export class CompMultimediaManager {
     @Input() title	: string;
+    currentRenderer : MediaRenderer;
     mediaRenderers  : MediaRenderer[] = [];
     mediaServers    : MediaServer  [] = [];
     constructor(private comm: CommService) {
@@ -17,5 +18,15 @@ export class CompMultimediaManager {
             this.mediaRenderers = data.mediaRenderers;
             this.mediaServers   = data.mediaServers;
         });
+    }
+    getCurrentMediaRendererName() : string {
+        if(this.currentRenderer) {
+            return this.currentRenderer.name;
+        } else {
+            return "none";
+        }
+    }
+    selectMediaRenderer(mr: MediaRenderer) {
+        this.currentRenderer = mr;
     }
 }

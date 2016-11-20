@@ -7,32 +7,14 @@
   border-radius: $d/2;
 }
 
-// Animations
-@keyframes slide-dir{
-  from{padding-left:100px}
-  to{padding-left:0px}
-}
 
 // Styles
-
 .server{
   background-color: #666;
   color: white;
   line-height: 3em;
 }
 
-
-.dir,.medias{
-  animation-name: slide-dir;
-  animation-duration: .3s;
-  tr td{
-    transition: all .5s;
-  }
-  tr:active td{
-    background-color: lightgreen;
-    padding: 8px 0px;
-  }
-}
 
 // tests styles Alex
 section[alx-dropzone] {

@@ -1,3 +1,49 @@
+<<<<<<< HEAD
+<section >
+    <header>
+        <!--
+        <span (click)="browseMediaServer(null)">Servers</span>
+        <span *ngIf="ms" (click)="browseMediaServer(ms)">→ {{ms.name}}</span>
+        <span *ngFor="let dir of breadcrumb"
+           (click)="browse(dir)">
+           → {{dir.name}}
+        </span>
+        -->
+        <span class="up" [class.active]="breadcrumb.length>0" (click)="browseParent()">
+            UP
+        </span>
+        <span>{{getCurrentItemName()}}</span>
+
+    </header>
+    <section #rootSection style="position: relative;">
+        <section #dataSection class="original">
+            <section *ngIf="!ms">
+                <p *ngFor="let server of devices" (click)="browseMediaServer(server)" style="border:1px solid #DDD">
+                    • {{server.name }}
+                </p>
+            </section>
+            <section *ngIf="ms && data" style="border:1px solid #DDD">
+                <p *ngFor="let dir of data.directories"
+                   (click)="browse(dir)"
+                   class="dir">
+                    {{dir.name}}
+                </p>
+                <table cellpadding="0" cellspacing="0" width="100%" class="medias">
+                    <tr style="cursor:move" *ngFor="let media of data.medias"
+                        [alx-draggable]="media"
+                    >
+                        <td>
+                            {{ media.title }} — {{ media.creator }}
+                        </td>
+                        <td class="media-duration">
+                            <!-- {{ duration }} -->
+                            {{media.duration}}
+                        </td>
+                    </tr>
+                </table>
+            </section>
+        </section>
+=======
 <section class="media-server">
   <!-- le header contient un fil d'ariane ("breadcrumb") -->
     <header class="server-breadcrumb">
@@ -21,6 +67,7 @@
         <p *ngFor="let server of devices" (click)="browseMediaServer(server)" class="server">
                 • {{server.name }}
         </p>
+>>>>>>> 03fc455ac80bfaf67ab0fb068082e9782c2004c2
     </section>
 
     <!-- cette section affiche le contenu des serveurs : des dossiers (directories) ou des médias (medias) -->

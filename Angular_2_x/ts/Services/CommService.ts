@@ -61,10 +61,10 @@ export interface Media {
     classe          : string;
 }
 export interface DataBrowse {
-    parentDirectory : string;
-    directories     : Directory[];
-    medias          : Media[];
-    error           : string;
+    directoryId : string;
+    directories : Directory[];
+    medias      : Media[];
+    error       : string;
 }
 
 let initDone = false;
@@ -191,15 +191,16 @@ export class CommService {
     browse(mediaServerId: string, directoryId: string = "0") : Promise<DataBrowse> {
         return utils.call( mediaServerId, "Browse", [directoryId] ).then( (dataString) => {
             let dataBrowse : DataBrowse = {
-                parentDirectory : directoryId,
-                directories     : [],
-                medias          : [],
-                error           : null
+                directoryId : directoryId,
+                directories : [],
+                medias      : [],
+                error       : null
             };
             try {
                 let doc         = this.parser.parseFromString( dataString, "text/xml" );
                 let Result      = doc.querySelector("Result");
                 let ResultDoc   = this.parser.parseFromString(Result.textContent, "text/xml");
+                console.log( ResultDoc );
 
                 // Parse containers
                 for(let container of ResultDoc.querySelectorAll("container")) {

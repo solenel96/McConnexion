@@ -6,6 +6,9 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA  } 				from "@angular/core";
 import { M1mMultimediaModule } 		from "./m1m-multimedia-module";
 import { DragDropModule } 			from "alx-dragdrop/DragDropModule";
 
+import "node_modules/jquery/dist/jquery.min.js";
+import "bootstrap/dist/js/bootstrap.min.js";
+
 // import { PolymerElement } from "@vaadin/angular2-polymer";
 // import "@vaadin/angular2-polymer";
 
@@ -15,8 +18,7 @@ import { DragDropModule } 			from "alx-dragdrop/DragDropModule";
 											alx-dragdrop></comp-multimedia-manager>
 				  `
 })
-class RootManager {
-}
+class RootManager {}
 
 //enableProdMode();
 @NgModule({
