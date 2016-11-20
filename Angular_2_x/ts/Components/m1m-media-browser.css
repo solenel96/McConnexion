@@ -25,7 +25,7 @@ section {
 }
 
 section.clone {
-    transition: opacity 0.3s;
+    transition: opacity .3s ease-in;
     opacity: 0;
 }
 

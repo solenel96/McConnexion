@@ -1,17 +1,18 @@
-<h2>Media Servers</h2>
-<<<<<<< HEAD
-<m1m-media-browser [devices]="mediaServers"></m1m-media-browser>
-<hr>
-<h2>Media Renderers (current is {{getCurrentMediaRendererName()}})</h2>
-<section class="m1m-media-renderer-container">
-    <m1m-media-renderer
-            *ngFor="let renderer of mediaRenderers"
-            [nf]="renderer"
-            (tap)="selectMediaRenderer(renderer)"
-            [class.selected] = "currentRenderer === renderer"
-    >
-    </m1m-media-renderer>
-</section>
+<m1m-media-browser [devices]="mediaServers">
+    <!-- ici est chargé le template m1m-media-browser.html -->
+</m1m-media-browser>
+
+<hr />
+
+<h2>Media Renderers</h2>
+
+<m1m-media-renderer *ngFor="let renderer of mediaRenderers"
+                    [nf]="renderer"
+                    (tap)="selectMediaRenderer(renderer)"
+                    [class.selected] = "currentRenderer === renderer"
+                    >
+    <!-- ici est chargé le template m1m-mdia-renderer.html autant de fois qu'il y a de renderers (boucle *ngfor) -->
+</m1m-media-renderer>
 
 
 <div id="carousel-example-generic"
@@ -59,17 +60,3 @@
         <span class="sr-only">Next</span>
     </a>
 </div>
-=======
-
-<m1m-media-browser [devices]="mediaServers">
-  <!-- ici est chargé le template m1m-media-browser.html -->
-</m1m-media-browser>
-
-<hr />
-
-<h2>Media Renderers</h2>
-
-<m1m-media-renderer *ngFor="let renderer of mediaRenderers" [nf]="renderer">
-<!-- ici est chargé le template m1m-mdia-renderer.html autant de fois qu'il y a de renderers (boucle *ngfor) -->
-</m1m-media-renderer>
->>>>>>> 03fc455ac80bfaf67ab0fb068082e9782c2004c2

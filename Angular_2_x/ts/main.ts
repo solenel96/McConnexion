@@ -7,7 +7,7 @@ import { M1mMultimediaModule } 		from "./m1m-multimedia-module";
 import { DragDropModule } 			from "alx-dragdrop/DragDropModule";
 
 import "node_modules/jquery/dist/jquery.min.js";
-import "bootstrap/dist/js/bootstrap.min.js";
+import "node_modules/bootstrap/dist/js/bootstrap.min.js";
 
 // import { PolymerElement } from "@vaadin/angular2-polymer";
 // import "@vaadin/angular2-polymer";
