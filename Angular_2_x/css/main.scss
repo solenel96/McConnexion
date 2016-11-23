@@ -1,3 +1,6 @@
+// Variables
+$lightColor:rgb(50, 255, 187);
+
 // Mixins
 @mixin circle-div($d) {
   max-width:  $d;
@@ -9,12 +12,53 @@
 
 
 // Styles
+
+body{
+  overflow: hidden;
+}
+.renderers{
+  position: absolute;
+  background-color: #DDD;
+  width:100vw;
+  height:50vh;
+  top: 90vh;
+  transition: top .5s;
+  h2{
+    cursor: pointer;
+    &:hover{
+      color: #666;
+    }
+  }
+}
+.slideTop{
+  top:50vh;
+  height:50vh;
+}
+
+
+header{
+  line-height: 5vh;
+  .up{
+    padding: 10px;
+    cursor: pointer;
+  }
+}
+
+
+.carousel-inner{
+  height:30vh;
+}
+
 .server{
   background-color: #666;
   color: white;
-  line-height: 3em;
+  line-height: 30vh;
+  text-align: center;
+  &:hover{
+    cursor: pointer;
+    background-color: #333;
+  }
 }
-
 
 // tests styles Alex
 section[alx-dropzone] {
