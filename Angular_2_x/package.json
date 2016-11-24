@@ -20,7 +20,7 @@
     "@polymer/paper-slider": "0.0.3",
     "@types/hammerjs": "^2.0.33",
     "@vaadin/angular2-polymer": "^1.0.0-beta5",
-    "alx-dragdrop": "^1.0.6",
+    "alx-dragdrop": "^1.0.10",
     "angular-in-memory-web-api": "~0.1.5",
     "bootstrap": "^3.3.7",
     "core-js": "^2.4.1",
