@@ -26,10 +26,10 @@
 
           <!-- <m1m-media-renderer *ngFor="let renderer of mediaRenderers" [nf]="renderer">
           </m1m-media-renderer> -->
-            {{renderer.name}}
-
-              <div class="img"><img src="img/DevicesSortieSearch.png"></div>
-
+              <div class="img">
+                  <img src="{{renderer.iconURL}}">
+              </div>
+              {{renderer.name}}
           </div>
 
       </div>
