@@ -1,7 +1,6 @@
-import {Component, Input, ElementRef, ViewChild} from "@angular/core";
-import {CommService, Directory, MediaServer, DataBrowse} from "../Services/CommService";
+import { Component, Input, Output, EventEmitter	} from "@angular/core";
+import {CommService, Directory, MediaServer, DataBrowse, Media} from "../Services/CommService";
 
-type BreadcrumbItem = MediaServer | Directory;
 @Component({
     selector		: "m1m-media-browser",
     templateUrl		: "ts/Components/m1m-media-browser.html",
@@ -9,53 +8,27 @@ type BreadcrumbItem = MediaServer | Directory;
                       ]
 })
 export class M1mMediaBrowser {
-    @ViewChild("rootSection") rootSection: ElementRef;
-    @ViewChild("dataSection") dataSection: ElementRef;
-    clone               : HTMLElement;
-    @Input() devices	: MediaServer[];
-    private breadcrumb  : BreadcrumbItem  [] = [];
+    @Input()  devices	: MediaServer[];
+    @Output("on-media-select") mediaSelect = new EventEmitter<Media>();
+    private breadcrumb  : Directory  [] = [];
     private data        : DataBrowse;
     private ms          : MediaServer;
     constructor(private cs: CommService) {
-        // console.log( "el:", el);
+        // console.log( "CommService:", cs);
     }
-    browse(item?: BreadcrumbItem) {
-        if(item) {
-            if( (item as Directory).directoryId) {
-                this.browseDirectory( item as Directory);
-            } else {
-                this.browseMediaServer(item as MediaServer);
-            }
-        } else {
-            this.data = null;
-        }
-    }
-    browseParent() {
-        this.breadcrumb.pop();
-        if(this.breadcrumb.length) {
-            this.browse( this.breadcrumb.pop() );
-        } else {
-            this.breadcrumb = [];
-            this.data = null;
-            this.ms = null;
-        }
-    }
-    getCurrentItemName() : string {
-        let res : string;
-        if(this.breadcrumb.length) {
-            res = this.breadcrumb[ this.breadcrumb.length - 1].name;
-        } else {res = "";}
-        return res;
+    selectMedia(media: Media) {
+        // console.log("selectMedia", media);
+        this.mediaSelect.emit(media);
     }
     browseMediaServer(ms: MediaServer) {
-        this.breadcrumb = [ ms ];
+        this.breadcrumb = [];
         this.ms         = ms;
         this.data       = null;
         if(ms) {
-            this.browseDirectory();
+            this.browse();
         }
     }
-    browseDirectory( directory?: Directory ) {
+    browse( directory?: Directory ) {
         let directoryId: string;
         if(directory) {
             directoryId = directory.directoryId;
@@ -65,25 +38,10 @@ export class M1mMediaBrowser {
         } else {
             directoryId = "0";
         }
-        if(this.clone) {
-            this.clone.remove();
-        }
-        this.clone = this.dataSection.nativeElement.cloneNode(true);
-        this.rootSection.nativeElement.insertBefore( this.clone, this.dataSection.nativeElement );
-        this.clone.style.position = "relative";
-        this.clone.style.top  = "0px";
-        this.clone.style.left = "0px";
-        this.clone.classList.remove("original");
-
-        this.dataSection.nativeElement.classList.remove("original");
-
         this.data = null;
         return this.cs.browse( this.ms.id, directoryId ).then( (data) => {
-            console.log( "Browse", this.ms.id, directoryId, "=>", data );
+            // console.log( "Browse", this.ms.id, directoryId, "=>", data );
             this.data = data;
-            this.dataSection.nativeElement.classList.add("original");
-            this.clone.style.position = "absolute";
-            this.clone.classList.add("clone");
         });
     }
 }

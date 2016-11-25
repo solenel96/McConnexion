@@ -4,7 +4,8 @@
          alx-drag-css           = "dropCandidate"
          alx-drag-over-css      = "canDrop"
          (swipeleft)="Log('swipeleft')"
-         (press)="rootSection.classList.toggle('truc')"
+         (press)="Log('press')"
+         (tap)="rootSection.classList.toggle('truc')"
          [class.playing]="isPlaying()"
          #rootSection
 >
@@ -40,8 +41,10 @@
     <section *ngIf="currentMedia">
         Duration: {{currentMedia.duration}}<br />
         <img src="{{ currentMedia.icon }}" style="max-width:100px" /><br/>
+        <!--
         currentMedia object:<br />
         <code>{{currentMedia | json}}</code>
+      -->
     </section>
 
 </section>

@@ -8,12 +8,10 @@
     "moduleResolution": "node",
     "removeComments": false,
     "noImplicitAny": false,
-    "suppressImplicitAnyIndexErrors": true
+    "suppressImplicitAnyIndexErrors": true,
+    "baseUrl": "."
   },
   "exclude": [
     "node_modules"
-  ],
-  "types": [
-
   ]
 }

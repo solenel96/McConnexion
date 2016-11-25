@@ -39,6 +39,7 @@ type eventMediaPlayer = {
     value       : number | string;
 };
 enum PLAY_STATE {PLAY, PAUSE, STOP}
+type eventPlayer = {eventName: string, data: eventMediaPlayer};
 @Component({
     selector		: "m1m-media-renderer",
     templateUrl		: "ts/Components/m1m-media-renderer.html",
@@ -56,22 +57,30 @@ export class M1mMediaRenderer implements OnInit {
     volume      : number    = 0;
     timeoutVol  : number;
     playState   : PLAY_STATE= PLAY_STATE.STOP;
+    missedEvent : eventPlayer[] = [];
     // tapped      = false;
     constructor(private cs: CommService) {
-        // ...
+        //
+    }
+    processEvent(event: eventPlayer) {
+        let data = event.data;
+        console.log( "M1mMediaRenderer UPnP event", event.data.attribut );
+        this.state[data.serviceType][data.attribut] = data.value;
+        this.updateRenderingControl ( this.state["urn:schemas-upnp-org:service:RenderingControl:1"]);
+        this.updateAVTransport      ( this.state["urn:schemas-upnp-org:service:AVTransport:1"]     );
+        //
+        if (data.serviceType === "UPnP_Media" && data.attribut === "itemMetadata") {
+            this.currentMedia = this.cs.getMediaFromDIDL( data.value as string );
+        }
     }
     ngOnInit(): void {
         // From TActHab
         this.obsEvent = this.cs.subscribe( this.nf.id );
-        this.obsEvent.subscribe( (event: {eventName: string, data: eventMediaPlayer}) => {
-            let data = event.data;
-            console.log( "M1mMediaRenderer UPnP event", event.data.attribut );
-            this.state[data.serviceType][data.attribut] = data.value;
-            this.updateRenderingControl ( this.state["urn:schemas-upnp-org:service:RenderingControl:1"]);
-            this.updateAVTransport      ( this.state["urn:schemas-upnp-org:service:AVTransport:1"]     );
-            //
-            if (data.serviceType === "UPnP_Media" && data.attribut === "itemMetadata") {
-                this.currentMedia = this.cs.getMediaFromDIDL( data.value as string );
+        this.obsEvent.subscribe( (event: eventPlayer) => {
+            if( !this.state ) {
+                this.missedEvent.push( event );
+            } else {
+                this.processEvent(event);
             }
         });
         this.cs.call(this.nf.id, "getMediasStates", []).then( (state) => {
@@ -86,6 +95,9 @@ export class M1mMediaRenderer implements OnInit {
                 this.currentMedia = this.cs.getMediaFromDIDL( UPnP_Media.itemMetadata );
                 // this.currentMedia.duration = AVTransport.CurrentMediaDuration;
             }
+            // Process missed events
+            this.missedEvent.forEach( e => this.processEvent(e) );
+            this.missedEvent = [];
         });
     }
     Log(str: string) {

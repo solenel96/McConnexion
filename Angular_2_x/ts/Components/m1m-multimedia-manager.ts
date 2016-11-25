@@ -1,16 +1,18 @@
 import { Component, Input 	} from "@angular/core";
-import {CommService, DataDlnaDevices, MediaServer, MediaRenderer} from "../Services/CommService";
+import {CommService, DataDlnaDevices, MediaServer, Media, MediaRenderer} from "../Services/CommService";
+import * as $ from "jquery";
+console.log( "$ =", $);
 
 @Component({
     selector		: "comp-multimedia-manager",
-    templateUrl		: "ts/Components/m1m-multimedia-manager.html",
-    styleUrls       : [ "ts/Components/m1m-multimedia-manager.css" ]
+    templateUrl : "ts/Components/m1m-multimedia-manager.html",
+    styleUrls   : [ "ts/Components/m1m-multimedia-manager.css" ]
 })
 export class CompMultimediaManager {
     @Input() title	: string;
-    currentRenderer : MediaRenderer;
     mediaRenderers  : MediaRenderer[] = [];
     mediaServers    : MediaServer  [] = [];
+    playingRenderer : MediaRenderer;
     constructor(private comm: CommService) {
         //console.log( "CommService:", comm);
         comm.init( localStorage.getItem( "TActHab_adresse" ) ).subscribe( (data: DataDlnaDevices) => {
@@ -19,14 +21,17 @@ export class CompMultimediaManager {
             this.mediaServers   = data.mediaServers;
         });
     }
-    getCurrentMediaRendererName() : string {
-        if(this.currentRenderer) {
-            return this.currentRenderer.name;
-        } else {
-            return "none";
+    Play(media: Media) {
+        console.log("Play", media);
+        let index = $("#carousel-Renderers  *.item.active").index();
+        console.log("index", index);
+        try {
+            let mediaRenderer = this.mediaRenderers[0];
+            this.comm.loadMedia(mediaRenderer.id, media.serverId, media.mediaId).then( () => {
+                this.comm.play(mediaRenderer.id).then( () => this.playingRenderer = mediaRenderer);
+            });
+        } catch(err) {
+            console.error("Error playing", media, "on renderer at index", index, ":\n", err);
         }
-    }
-    selectMediaRenderer(mr: MediaRenderer) {
-        this.currentRenderer = mr;
     }
 }
