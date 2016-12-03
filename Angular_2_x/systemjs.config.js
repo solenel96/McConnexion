@@ -25,7 +25,7 @@
             // other libraries
             'rxjs': 'npm:rxjs',
             'angular-in-memory-web-api': 'npm:angular-in-memory-web-api/bundles/in-memory-web-api.umd.js',
-            "socket.io-client": "npm:socket.io-client/socket.io.js",
+            "socket.io-client": "npm:socket.io-client/dist/socket.io.js",
             "@polymer": "npm:@polymer",
             "@vaadin/angular2-polymer": "npm:@vaadin/angular2-polymer",
             "hammerjs": "npm:hammerjs",
