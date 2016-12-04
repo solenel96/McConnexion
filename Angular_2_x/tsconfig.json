@@ -9,7 +9,8 @@
     "removeComments": false,
     "noImplicitAny": false,
     "suppressImplicitAnyIndexErrors": true,
-    "baseUrl": "."
+    "baseUrl": ".",
+    "typeRoots" : ["./node_modules/@types"]
   },
   "exclude": [
     "node_modules"

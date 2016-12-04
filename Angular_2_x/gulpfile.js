@@ -7,7 +7,7 @@ var gulp				= require('gulp')
   , tsc					= require('gulp-typescript')
   , tslint				= require("gulp-tslint")
   , stylish 			= require('gulp-tslint-stylish')
-  , sourcemaps 			= require('gulp-sourcemaps');
+  , sourcemaps 			= require('gulp-sourcemaps')
   ;
 
 
@@ -25,7 +25,7 @@ function appendProblemFiles(fName) {
 }
 function removeProblemFiles(fName) {
 	console.log("removeProblemFiles", fName);
-	var pos = problemFiles.indexOf(fName)
+	var pos = problemFiles.indexOf(fName);
 	if(pos !== -1) {
 		problemFiles.splice(problemFiles.indexOf(fName), 1);
 	}
@@ -88,7 +88,7 @@ gulp.task( 'tsc', function() {
 		var tsProject = tsc.createProject( def.config, {typescript: require("typescript")} );
 		var tsresult = tsProject.src()
 								.pipe(sourcemaps.init( {sourceRoot: ""} ))
-								.pipe(tsc(tsProject));
+            					.pipe(tsProject(/*reporter*/))//.pipe(tsc(tsProject));
 		tsresult.js.pipe(sourcemaps.write({
 			// Return relative source map root directories per file.
 			sourceRoot: ""

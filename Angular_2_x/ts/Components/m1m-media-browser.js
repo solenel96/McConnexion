@@ -1,73 +1,62 @@
-System.register(["@angular/core", "../Services/CommService"], function(exports_1, context_1) {
-    "use strict";
-    var __moduleName = context_1 && context_1.id;
-    var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-        var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-        if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-        else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-        return c > 3 && r && Object.defineProperty(target, key, r), r;
-    };
-    var __metadata = (this && this.__metadata) || function (k, v) {
-        if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-    };
-    var core_1, CommService_1;
-    var M1mMediaBrowser;
-    return {
-        setters:[
-            function (core_1_1) {
-                core_1 = core_1_1;
-            },
-            function (CommService_1_1) {
-                CommService_1 = CommService_1_1;
-            }],
-        execute: function() {
-            let M1mMediaBrowser = class M1mMediaBrowser {
-                constructor(cs) {
-                    this.cs = cs;
-                    this.breadcrumb = [];
-                    // console.log( "CommService:", cs);
-                }
-                browseMediaServer(ms) {
-                    this.breadcrumb = [];
-                    this.ms = ms;
-                    this.data = null;
-                    if (ms) {
-                        this.browse();
-                    }
-                }
-                browse(directory) {
-                    let directoryId;
-                    if (directory) {
-                        directoryId = directory.directoryId;
-                        let keep = true;
-                        this.breadcrumb = this.breadcrumb.filter(D => keep && (keep = D !== directory));
-                        this.breadcrumb.push(directory);
-                    }
-                    else {
-                        directoryId = "0";
-                    }
-                    this.data = null;
-                    return this.cs.browse(this.ms.id, directoryId).then((data) => {
-                        console.log("Browse", this.ms.id, directoryId, "=>", data);
-                        this.data = data;
-                    });
-                }
-            };
-            __decorate([
-                core_1.Input(), 
-                __metadata('design:type', Array)
-            ], M1mMediaBrowser.prototype, "devices", void 0);
-            M1mMediaBrowser = __decorate([
-                core_1.Component({
-                    selector: "m1m-media-browser",
-                    templateUrl: "ts/Components/m1m-media-browser.html",
-                    styleUrls: ["ts/Components/m1m-media-browser.css"
-                    ]
-                }), 
-                __metadata('design:paramtypes', [CommService_1.CommService])
-            ], M1mMediaBrowser);
-            exports_1("M1mMediaBrowser", M1mMediaBrowser);
-        }
+"use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var core_1 = require("@angular/core");
+var M1mMediaBrowser = (function () {
+    function M1mMediaBrowser(cs) {
+        this.cs = cs;
+        this.mediaSelect = new core_1.EventEmitter();
+        this.breadcrumb = [];
+        // console.log( "CommService:", cs);
     }
-});
-//# sourceMappingURL=m1m-media-browser.js.map
+    M1mMediaBrowser.prototype.selectMedia = function (media) {
+        // console.log("selectMedia", media);
+        this.mediaSelect.emit(media);
+    };
+    M1mMediaBrowser.prototype.browseMediaServer = function (ms) {
+        this.breadcrumb = [];
+        this.ms = ms;
+        this.data = null;
+        if (ms) {
+            this.browse();
+        }
+    };
+    M1mMediaBrowser.prototype.browse = function (directory) {
+        var _this = this;
+        var directoryId;
+        if (directory) {
+            directoryId = directory.directoryId;
+            var keep_1 = true;
+            this.breadcrumb = this.breadcrumb.filter(function (D) { return keep_1 && (keep_1 = D !== directory); });
+            this.breadcrumb.push(directory);
+        }
+        else {
+            directoryId = "0";
+        }
+        this.data = null;
+        return this.cs.browse(this.ms.id, directoryId).then(function (data) {
+            // console.log( "Browse", this.ms.id, directoryId, "=>", data );
+            _this.data = data;
+        });
+    };
+    __decorate([
+        core_1.Input()
+    ], M1mMediaBrowser.prototype, "devices");
+    __decorate([
+        core_1.Output("on-media-select")
+    ], M1mMediaBrowser.prototype, "mediaSelect");
+    M1mMediaBrowser = __decorate([
+        core_1.Component({
+            selector: "m1m-media-browser",
+            templateUrl: "ts/Components/m1m-media-browser.html",
+            styleUrls: ["ts/Components/m1m-media-browser.css"
+            ]
+        })
+    ], M1mMediaBrowser);
+    return M1mMediaBrowser;
+}());
+exports.M1mMediaBrowser = M1mMediaBrowser;

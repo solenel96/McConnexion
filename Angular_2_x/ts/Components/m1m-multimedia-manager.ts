@@ -1,7 +1,5 @@
 import { Component, Input 	} from "@angular/core";
 import {CommService, DataDlnaDevices, MediaServer, Media, MediaRenderer} from "../Services/CommService";
-import * as $ from "jquery";
-console.log( "$ =", $);
 
 @Component({
     selector		: "comp-multimedia-manager",
