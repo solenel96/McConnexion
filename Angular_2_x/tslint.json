@@ -17,21 +17,19 @@
     ],
     "no-arg": true,
     "no-construct": true,
-    "no-duplicate-key": true,
     "no-duplicate-variable": true,
     "no-empty": true,
     "no-eval": true,
     "no-trailing-whitespace": true,
     "no-unused-expression": true,
     "no-unused-variable": true,
-    "no-unreachable": true,
     "no-use-before-declare": true,
     "one-line": [
       true,
       "check-open-brace",
       "check-catch",
       "check-else",
-      "check-whitespace"
+     "check-whitespace"
     ],
     "quotemark": [
       true,
@@ -41,14 +39,6 @@
     "trailing-comma": true,
     "triple-equals": true,
     "variable-name": false,
-    "component-selector-name": [
-      true,
-      "kebab-case"
-    ],
-    "component-selector-type": [
-      true,
-      "element"
-    ],
     "use-input-property-decorator": true,
     "use-output-property-decorator": true,
     "no-attribute-parameter-decorator": true,

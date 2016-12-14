@@ -1,3 +1,135 @@
+<div class="splash-screen" #splashScreen>
+<!--<span
+  class="glyphicon glyphicon-remove-sign"
+  aria-hidden="true"
+  (tap)="splashScreen.classList.add('display-none')"
+></span>-->
+
+
+    <div class="tuto" #tuto
+      (tap)="tuto.classList.toggle('tuto-left')"
+      (tap)="splashScreen.classList.add('display-none')">
+      <div class="tuto-illu">
+        <img src="img/logo.svg" style="width:60%; margin-left:20%;">
+      </div>
+      <div class="tuto-text">
+        <p> Bienvenue dans McConnexion </p>
+      </div>
+    </div>
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+<!-- PREMIER ÉCRAN : INDEX, CHOIX DES SERVEURS-PLAYERS -->
+<div id="index">
+
+      <!-- BACKGROUND DE L'INDEX -->
+      <div class="back , bindex"> </div>
+
+
+      <!-- HEADER : ICONE SERVEUR-PLAYER -->
+      <div class="bouton , index-play">
+        <img src="img/picto-player-b.svg"/>
+      </div>
+
+      <div class="bouton , index-serv">
+        <img src="img/picto-serveur-b.svg"/>
+      </div>
+
+
+      <!-- COLONNE DES PLAYERS -->
+
+      <section class="mediarenderers" >
+        <div class="all-renderers">
+          <m1m-media-renderer *ngFor="let renderer of mediaRenderers" [nf]="renderer"
+          (tap)="selectedMediaRenderer=renderer"
+          class="renderer"
+          [class.selected]="selectedMediaRenderer===renderer"
+          >
+            <!-- ici est chargé le template m1m-mdia-renderer.html autant de fois qu'il y a de renderers (boucle *ngfor) -->
+          </m1m-media-renderer>
+        </div>
+      </section>
+
+
+      <!-- COLONNE DES SERVEURS -->
+      <div class="all-serveurs">
+              <div *ngFor="let server of mediaServers"
+                   (tap)="selectedMediaServer=server"
+                   class="server"
+                   [class.selected]="selectedMediaServer===server"
+                   >
+                <div class="serveur-circle">
+                  <img src="img/picto-serveur.svg"/>
+                </div>
+                    <p class="serveur-item"> {{server.name }} </p>
+              </div>
+
+
+      </div>
+
+      <!-- FOOTER : AIDE INDEX -->
+      <div class="infos">
+        <p>Cliquez sur les appareils que vous souhaitez connecter.</p>
+      </div>
+
+
+</div>
+
+
+
+
+<!-- DEUXIÈME ÉCRAN : EXPLORATION BIBLIOTHÈQUE -->
+
+<div id="play-serv" [class.display]="selectedMediaServer && selectedMediaRenderer" #playserv>
+
+  <div class="back , bserv"></div>
+
+    <div class="dirindex"
+    (tap)="playserv.classList.toggle('down')">
+
+      <img src="img/picto-dir.svg" style="width:5%; margin-left:47.5%; margin-top:2%;">
+    </div>
+
+
+      <div class="bouton , play">
+        <img src="img/picto-player.svg"/>
+        <h5>Appareil de sortie</h5>
+      </div>
+
+
+      <div class="bouton , serv">
+        <img src="img/picto-serveur.svg"/>
+        <h5>Bibliothèque </h5>
+
+      </div>
+
+    
+
+      <div class="menu-1">
+              <m1m-media-browser [devices]="mediaServers">
+              </m1m-media-browser>
+      </div>
+
+
+
+</div>
+
+
+
+
+<!--
+
 <section class="renderersMain">
 
   <h2>OUTPUTS</h2>
@@ -12,20 +144,20 @@
        (swipeleft) ="rightRenderers.click()"
        (swiperight)=" leftRenderers.click()"
       >
-      <!-- Indicateurs -->
+      Indicateurs
       <ul class="carousel-indicators">
           <li  *ngFor="let renderer of mediaRenderers; let first = first; let i = index" data-target="#carousel-Renderers" data-slide-to="{i}" [ngClass]="{ active: first}"></li>
       </ul>
 
-      <!-- Slides -->
+      Slides
       <div class="carousel-inner" role="listbox">
 
 
           <div *ngFor="let renderer of mediaRenderers; let first = first" (click)="(server)"
           class="item" [ngClass]="{ active: first}">
 
-          <!-- <m1m-media-renderer *ngFor="let renderer of mediaRenderers" [nf]="renderer">
-          </m1m-media-renderer> -->
+          <m1m-media-renderer *ngFor="let renderer of mediaRenderers" [nf]="renderer">
+          </m1m-media-renderer>
               <div class="img">
                   <img src="{{renderer.iconURL}}">
               </div>
@@ -34,7 +166,7 @@
 
       </div>
 
-      <!-- Contrôles -->
+    Contrôles
       <a #leftRenderers class="left carousel-control" href="#carousel-Renderers" role="button" data-slide="prev">
           <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>
           <span class="sr-only">Previous</span>
@@ -58,7 +190,8 @@
       [devices]="mediaServers"
       (on-media-select)="Play($event)"
       >
-    <!-- ici est chargé le template m1m-media-browser.html -->
+    ici est chargé le template m1m-media-browser.html
   </m1m-media-browser>
 
 </section>
+-->
