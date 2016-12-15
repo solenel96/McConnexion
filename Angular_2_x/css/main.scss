@@ -311,6 +311,10 @@ h6 {
           width:50%;
           margin-top:50px;
           float:left;
+          opacity:0.8;
+        }
+
+        .mediarenderers.selected {
           opacity:1;
         }
 
@@ -364,7 +368,7 @@ h6 {
         }
 
         .truc {
-            opacity:0.9;
+            opacity:1;
         }
 
 
@@ -411,7 +415,7 @@ h6 {
     // MENU PLAYER / SERVEUR
 
         #play-serv {
-          position:fixed;
+          position:absolute;
           width:100%;
           height:100%;
           padding:0;

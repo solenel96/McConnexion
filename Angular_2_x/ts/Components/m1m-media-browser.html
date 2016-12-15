@@ -55,7 +55,8 @@
                           [alx-draggable]="media"
                           (tap)   = "selectMedia(media)"
                           >
-                              <td class="media-title">
+                              <td class="media-title" 
+                              (tap)="player.classList.toggle('play-control-display')">
                                 <p>{{ media.title }} — {{ media.creator }}</p>
                               </td>
                               <!--<td class="media-duration">
@@ -63,6 +64,7 @@
                               </td>-->
                       </tr>
                   </table>
+                  <div class="play-control" #player> </div>
           </div>
 
 
